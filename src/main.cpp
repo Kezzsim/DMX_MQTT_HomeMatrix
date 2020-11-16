@@ -1,5 +1,7 @@
 #include <Arduino.h>
 #include <Preconfig.h>
+#include "globals.hpp"
+#include "globals.cpp"
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <functionServer.cpp>
@@ -24,6 +26,10 @@ void setup()
 }
 
 void loop()
-{
-
+{   
+    Serial.println("GLOBAL VALUES");
+    Serial.println(GLOBAL_MODE);
+    Serial.println(GLOBAL_PROGRAM);
+    Serial.println(GLOBAL_DIMMER);
+    Serial.println(GLOBAL_STROBE);
 }
