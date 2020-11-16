@@ -2,15 +2,18 @@
 #include <Preconfig.h>
 #include "globals.hpp"
 #include "globals.cpp"
+#include <SparkFunDMX.h>
 #include <WiFi.h>
 #include <ESPmDNS.h>
 #include <functionServer.cpp>
 
+SparkFunDMX dmx;
 
 void setup()
 {
     Serial.begin(115200);
-    Serial.println("Booted");
+    Serial.println("Booted (1) ");
+
     WiFi.mode(WIFI_STA);
     WiFi.begin(WIFI_SSID, WIFI_PW);
     while (WiFi.waitForConnectResult() != WL_CONNECTED)
@@ -21,15 +24,24 @@ void setup()
     }
     MDNS.begin("ceiling-matrix");
     startServer();
-    Serial.println("Network Online : ");
+    Serial.println("Network Online (2) ");
     Serial.println(WiFi.localIP());
+
+    // initialization for complete bus
+    dmx.initWrite(TOTAL_CHANNELS);
+    Serial.println("DMX Online (3) ");
 }
 
 void loop()
 {   
-    Serial.println("GLOBAL VALUES");
-    Serial.println(GLOBAL_MODE);
-    Serial.println(GLOBAL_PROGRAM);
-    Serial.println(GLOBAL_DIMMER);
-    Serial.println(GLOBAL_STROBE);
+    Serial.printf("Global Mode value: %d\n",  (uint8_t) GLOBAL_MODE);
+    dmx.write(MODE_CHANNEL, GLOBAL_MODE);
+    dmx.write(PROGRAM_CHANNEL, GLOBAL_PROGRAM);
+    Serial.printf("Global Program value: %d\n",  (uint8_t) GLOBAL_PROGRAM);
+    dmx.write(DIMMER_CHANNEL, GLOBAL_DIMMER);
+    Serial.printf("Global Dimmer value: %d\n",  (uint8_t) GLOBAL_DIMMER);
+    dmx.write(STROBE_CHANNEL, GLOBAL_STROBE);
+    Serial.printf("Global Strobe value: %d\n",  (uint8_t) GLOBAL_STROBE);
+    // update the DMX bus with the values that we have written
+    dmx.update();
 }
