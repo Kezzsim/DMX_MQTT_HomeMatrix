@@ -1,33 +1,49 @@
 #include <Arduino.h>
 #include "functionServer.hpp"
 #include <ESPAsyncWebServer.h>
-#include "ArduinoJson.h"
 #include <AsyncJson.h>
+#include "dmxController.cpp"
 
-int ledPin = 13;
+dmxController xxx;
+
 AsyncWebServer server(80);
 
 void startServer()
 {
-
-    pinMode(ledPin, OUTPUT);
+    xxx.init();
 
     DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
     DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, PUT");
     DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "*");
 
-    server.addHandler(new AsyncCallbackJsonWebHandler("/led", [](AsyncWebServerRequest *request, JsonVariant &json) {
+    server.addHandler(new AsyncCallbackJsonWebHandler("/matrix", [](AsyncWebServerRequest *request, JsonVariant &json) {
     const JsonObject &jsonObj = json.as<JsonObject>();
-    if (jsonObj["on"])
+    // Set default values for the Matrix Macros
+    uint8_t mode = 0 ;
+    uint8_t program = 0;
+    uint8_t dimmer = 0;
+    uint8_t strobe = 0;
+
+    if (jsonObj["mode"])
     {
-      Serial.println("Turn on LED");
-      digitalWrite(ledPin, HIGH);
+        mode = jsonObj["mode"];
     }
-    else
+    if (jsonObj["program"])
     {
-      Serial.println("Turn off LED");
-      digitalWrite(ledPin, LOW);
+        program = jsonObj["program"];
     }
+    if (jsonObj["dimmer"])
+    {
+        dimmer = jsonObj["dimmer"];
+    }
+    if (jsonObj["strobe"])
+    {
+        strobe = jsonObj["strobe"];
+    }
+
+    // Send the values set to the DMX Matrix
+    xxx.setMatrix(mode, program, dimmer, strobe);
+
     request->send(200, "OK");
   }));
 
