@@ -1,13 +1,14 @@
 #include <Arduino.h>
 #include "functionServer.hpp"
 #include <ESPAsyncWebServer.h>
+#include "ArduinoJson.h"
 #include <AsyncJson.h>
 
 int ledPin = 13;
+AsyncWebServer server(80);
 
 void startServer()
 {
-    AsyncWebServer server(80);
 
     pinMode(ledPin, OUTPUT);
 
@@ -29,5 +30,19 @@ void startServer()
     }
     request->send(200, "OK");
   }));
+
+    server.onNotFound([](AsyncWebServerRequest *request) {
+    if (request->method() == HTTP_OPTIONS)
+    {
+      request->send(200);
+    }
+    else
+    {
+      Serial.println("Not found");
+      request->send(404, "Not found");
+    }
+  });
+
+  server.begin();
 
 }

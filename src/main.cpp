@@ -2,14 +2,12 @@
 #include <Preconfig.h>
 #include <WiFi.h>
 #include <ESPmDNS.h>
-#include <SparkFunDMX.h>
 #include <functionServer.cpp>
 #include <ESPAsyncWebServer.h>
 #include <AsyncJson.h>
 
 void setup()
 {
-    SparkFunDMX dmx;
     Serial.begin(115200);
     Serial.println("Booted");
     WiFi.mode(WIFI_STA);
@@ -21,9 +19,9 @@ void setup()
         ESP.restart();
     }
     MDNS.begin("ceiling-matrix");
+    startServer();
     Serial.println("Network Online : ");
     Serial.println(WiFi.localIP());
-    startServer();
 }
 
 void loop()
