@@ -34,14 +34,10 @@ void setup()
 
 void loop()
 {   
-    Serial.printf("Global Mode value: %d\n",  (uint8_t) GLOBAL_MODE);
     dmx.write(MODE_CHANNEL, GLOBAL_MODE);
     dmx.write(PROGRAM_CHANNEL, GLOBAL_PROGRAM);
-    Serial.printf("Global Program value: %d\n",  (uint8_t) GLOBAL_PROGRAM);
     dmx.write(DIMMER_CHANNEL, GLOBAL_DIMMER);
-    Serial.printf("Global Dimmer value: %d\n",  (uint8_t) GLOBAL_DIMMER);
     dmx.write(STROBE_CHANNEL, GLOBAL_STROBE);
-    Serial.printf("Global Strobe value: %d\n",  (uint8_t) GLOBAL_STROBE);
     // update the DMX bus with the values that we have written
     dmx.update();
 }
