@@ -34,6 +34,11 @@ void startServer()
         GLOBAL_STROBE = jsonObj["strobe"];
     }
 
+    Serial.printf("Global Mode value: %d\n",  (uint8_t) GLOBAL_MODE);
+    Serial.printf("Global Program value: %d\n",  (uint8_t) GLOBAL_PROGRAM);
+    Serial.printf("Global Dimmer value: %d\n",  (uint8_t) GLOBAL_DIMMER);
+    Serial.printf("Global Strobe value: %d\n",  (uint8_t) GLOBAL_STROBE);
+
     request->send(200, "OK");
   }));
 

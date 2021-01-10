@@ -40,4 +40,5 @@ void loop()
     dmx.write(STROBE_CHANNEL, GLOBAL_STROBE);
     // update the DMX bus with the values that we have written
     dmx.update();
+    delay(1000);
 }
