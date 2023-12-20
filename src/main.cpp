@@ -22,7 +22,7 @@ void setup()
         delay(5000);
         ESP.restart();
     }
-    MDNS.begin("ceiling-matrix");
+    MDNS.begin("jellyfish");
     startServer();
     Serial.println("Network Online (2) ");
     Serial.println(WiFi.localIP());
@@ -36,7 +36,6 @@ void loop()
 {   
     dmx.write(MODE_CHANNEL, GLOBAL_MODE);
     dmx.write(PROGRAM_CHANNEL, GLOBAL_PROGRAM);
-    dmx.write(DIMMER_CHANNEL, GLOBAL_DIMMER);
     dmx.write(STROBE_CHANNEL, GLOBAL_STROBE);
     // update the DMX bus with the values that we have written
     dmx.update();

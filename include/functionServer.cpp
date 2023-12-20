@@ -25,10 +25,6 @@ void startServer()
     {
         GLOBAL_PROGRAM = jsonObj["program"];
     }
-    if (jsonObj["dimmer"])
-    {
-        GLOBAL_DIMMER = jsonObj["dimmer"];
-    }
     if (jsonObj["strobe"])
     {
         GLOBAL_STROBE = jsonObj["strobe"];
@@ -36,7 +32,6 @@ void startServer()
 
     Serial.printf("Global Mode value: %d\n",  (uint8_t) GLOBAL_MODE);
     Serial.printf("Global Program value: %d\n",  (uint8_t) GLOBAL_PROGRAM);
-    Serial.printf("Global Dimmer value: %d\n",  (uint8_t) GLOBAL_DIMMER);
     Serial.printf("Global Strobe value: %d\n",  (uint8_t) GLOBAL_STROBE);
 
     request->send(200, "OK");
